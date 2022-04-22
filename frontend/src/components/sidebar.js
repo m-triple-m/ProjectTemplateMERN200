@@ -159,6 +159,7 @@ export default function Sidebar({ sidebarOptions, children, title }) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        {children}
       </Box>
     </Box>
   );
