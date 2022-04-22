@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,8 +17,9 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useNavigate } from "react-router-dom";
-import { Logout, VerifiedUser } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
+import { AppRegistration, Logout, VerifiedUser } from "@mui/icons-material";
+import { Menu, MenuItem, Tooltip } from "@mui/material";
+import { useState } from "react";
 
 const drawerWidth = 240;
 
@@ -90,7 +90,10 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidebar({ sidebarOptions, children, title }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [userMenuPos, setUserMenuPos] = useState(null);
+
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
@@ -124,10 +127,32 @@ export default function Sidebar({ sidebarOptions, children, title }) {
           <Box sx={{ flexGrow: 1 }} />
 
           <Tooltip title="User Options">
-            <IconButton sx={{ ml: 3 }} color="inherit">
+            <IconButton
+              sx={{ ml: 3 }}
+              color="inherit"
+              onClick={(e) => {
+                setUserMenuPos(e.currentTarget);
+              }}
+            >
               <VerifiedUser />
             </IconButton>
           </Tooltip>
+
+          <Menu
+            anchorEl={userMenuPos}
+            open={Boolean(userMenuPos)}
+            onClose={(e) => setUserMenuPos(null)}
+          >
+            <MenuItem>
+              <ListItemIcon>
+                <AppRegistration />
+              </ListItemIcon>
+              <ListItemText>Register</ListItemText>
+            </MenuItem>
+            <Divider />
+            <MenuItem>Signup</MenuItem>
+          </Menu>
+
           <IconButton sx={{ ml: 3 }} color="inherit">
             <Logout />
           </IconButton>
